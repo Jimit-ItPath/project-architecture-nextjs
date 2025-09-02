@@ -4,6 +4,7 @@ import './globals.css';
 import '@mantine/core/styles.css';
 import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
 import ThemeProvider from '../theme/provider';
+import { QueryProvider } from '../theme/query-provider';
 
 const poppins = Poppins({
   variable: '--font-poppins',
@@ -57,7 +58,9 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body className={`${poppins.variable}`} suppressHydrationWarning={true}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <QueryProvider>{children}</QueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -29,7 +29,14 @@ const nextConfig: NextConfig = {
 
   // app router tree shaking and optimization
   experimental: {
-    optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
+    optimizePackageImports: [
+      '@mantine/core',
+      '@mantine/hooks',
+      '@tanstack/react-query',
+      '@tanstack/react-query-devtools',
+      '@tanstack/react-virtual',
+      '@tanstack/react-table',
+    ],
   },
 };
 
