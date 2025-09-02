@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+.npm/
+.yarn/
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache files
+.eslintcache
+.next/
+.nuxt/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Package lock files (ignore if using npm)
+# package-lock.json
+# yarn.lock
+
+# Coverage
+coverage/
+
+# Misc
+*.tsbuildinfo
+
+# postcss
+postcss.config.cjs
