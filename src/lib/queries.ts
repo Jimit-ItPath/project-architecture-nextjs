@@ -1,7 +1,18 @@
 export const queries = {
-  fetchProductsData: async () => {
-    const response = await fetch('https://api.escuelajs.co/api/v1/products');
+  fetchProductsData: async ({ pageParam = 1 }) => {
+    const response = await fetch(
+      `https://fakestoreapiserver.reactbd.org/api/products?page=${pageParam}&perPage=20`,
+      { cache: 'no-store' }
+    );
     const data = await response.json();
-    return data;
+    const { data: products, perPage, totalPages, totalProducts } = data;
+    return {
+      items: products,
+      nextPage: pageParam + 1,
+      hasMore: pageParam < totalPages,
+      totalPages,
+      totalProducts,
+      perPage,
+    };
   },
 };

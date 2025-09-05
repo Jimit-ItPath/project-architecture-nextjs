@@ -36,9 +36,9 @@ export function middleware(request: NextRequest) {
   }
 
   // --- 3. Protected routes
-  const isProtected = PROTECTED_ROUTES.some(prefix =>
-    pathname.startsWith(prefix)
-  );
+  // const isProtected = PROTECTED_ROUTES.some(prefix =>
+  //   pathname.startsWith(prefix)
+  // );
 
   // if (isProtected && !isTokenValid) {
   //   return NextResponse.redirect(new URL('/login', request.url));
