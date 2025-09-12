@@ -3,9 +3,19 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { queries } from '../../../lib/queries';
 import { ColumnDef } from '@tanstack/react-table';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DataTable } from '../../../components/table/DataTable';
 import { queryKeys } from '../../../lib/queryKeys';
+import {
+  useAddProductMutation,
+  useDeleteProductMutation,
+  useEditProductMutation,
+} from './use-dashboard';
+import { ActionIcon, Group } from '@mantine/core';
+import { IconEdit, IconTrash } from '@tabler/icons-react';
+import { Button } from '../../../components';
+import { AddEditProductModal } from './components/AddEditProductModal';
+import { DeleteProductModal } from './components/DeleteProductModal';
 
 type Product = {
   _id: number;
@@ -17,6 +27,10 @@ type Product = {
 };
 
 const Dashboard = () => {
+  const [addOpen, setAddOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const {
     data,
     fetchNextPage,
@@ -33,6 +47,10 @@ const Dashboard = () => {
       lastPage.hasMore ? lastPage.nextPage : undefined,
     initialPageParam: 1,
   });
+
+  const add = useAddProductMutation();
+  const edit = useEditProductMutation();
+  const del = useDeleteProductMutation();
 
   // Flatten pages into a single array
   const products: Product[] = data?.pages.flatMap(page => page.items) ?? [];
@@ -62,6 +80,36 @@ const Dashboard = () => {
     {
       header: 'Category',
       accessorFn: row => row.category ?? 'N/A',
+    },
+    {
+      header: 'Actions',
+      id: 'actions',
+      cell: ({ row }) => {
+        const product = row.original;
+        return (
+          <Group gap='xs'>
+            <ActionIcon
+              variant='subtle'
+              onClick={() => {
+                setSelectedProduct(product);
+                setEditOpen(true);
+              }}
+            >
+              <IconEdit size={16} />
+            </ActionIcon>
+            <ActionIcon
+              variant='subtle'
+              color='red'
+              onClick={() => {
+                setSelectedProduct(product);
+                setDeleteOpen(true);
+              }}
+            >
+              <IconTrash size={16} />
+            </ActionIcon>
+          </Group>
+        );
+      },
     },
   ];
 
@@ -106,7 +154,10 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h1>Products</h1>
+      <Group gap={20} mb={20}>
+        <h1>Products</h1>
+        <Button onClick={() => setAddOpen(true)}>Add Product</Button>
+      </Group>
 
       <DataTable
         columns={columns}
@@ -125,6 +176,41 @@ const Dashboard = () => {
       <div ref={loaderRef} style={{ height: '1px' }} />
 
       {/* {isFetchingNextPage && <p>Loading more...</p>} */}
+
+      <AddEditProductModal
+        opened={addOpen}
+        onClose={() => setAddOpen(false)}
+        mode='add'
+        onSubmit={values =>
+          add.mutate(values, { onSuccess: () => setAddOpen(false) })
+        }
+        isLoading={add.isLoading}
+      />
+
+      <AddEditProductModal
+        opened={editOpen}
+        onClose={() => setEditOpen(false)}
+        mode='edit'
+        initialValues={selectedProduct ?? undefined}
+        onSubmit={values =>
+          edit.mutate(
+            { id: selectedProduct?._id, ...values },
+            { onSuccess: () => setEditOpen(false) }
+          )
+        }
+        isLoading={edit.isLoading}
+      />
+
+      <DeleteProductModal
+        opened={deleteOpen}
+        onClose={() => setDeleteOpen(false)}
+        onConfirm={() =>
+          del.mutate(selectedProduct?._id as number, {
+            onSuccess: () => setDeleteOpen(false),
+          })
+        }
+        isLoading={del.isLoading}
+      />
     </div>
   );
 };
