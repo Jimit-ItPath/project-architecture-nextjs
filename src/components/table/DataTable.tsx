@@ -60,7 +60,7 @@ export function DataTable<TData>({
   onPaginationChange,
   isLoading,
   rowHeight = 56,
-  colWidth = 180,
+  // colWidth = 180,
   tableHeight,
   columnWidths,
   isError,

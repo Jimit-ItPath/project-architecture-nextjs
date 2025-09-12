@@ -17,6 +17,7 @@
     "dev:production": "dotenv -e .env.production -- next dev --turbopack"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.1",
     "@mantine/core": "^8.1.2",
     "@mantine/hooks": "^8.1.2",
     "@mantine/notifications": "^8.1.2",
@@ -31,8 +32,8 @@
     "next": "15.3.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.59.0",
-    "zod": "^3.25.67"
+    "react-hook-form": "^7.62.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

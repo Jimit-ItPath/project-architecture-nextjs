@@ -4,6 +4,7 @@ export const queries = {
       `https://fakestoreapiserver.reactbd.org/api/products?page=${pageParam}&perPage=20`,
       { cache: 'no-store' }
     );
+    if (!response.ok) throw new Error('Failed to fetch products');
     const data = await response.json();
     const { data: products, perPage, totalPages, totalProducts } = data;
     return {

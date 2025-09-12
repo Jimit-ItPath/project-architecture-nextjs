@@ -3,9 +3,9 @@ import { routes } from '@/utils/constants/routes';
 
 const PUBLIC_ROUTES = Object.values(routes.public);
 const AUTH_ROUTES = Object.values(routes.auth);
-const PROTECTED_ROUTES = Object.values(routes.private).filter(
-  route => typeof route === 'string'
-);
+// const PROTECTED_ROUTES = Object.values(routes.private).filter(
+//   route => typeof route === 'string'
+// );
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
